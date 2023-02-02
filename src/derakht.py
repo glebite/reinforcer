@@ -1,6 +1,7 @@
 """derakht.py
 
 """
+from collections import defaultdict
 
 
 class Node:
@@ -8,7 +9,7 @@ class Node:
     """
     def __init__(self, label):
         self.label = label
-        self.children = dict()
+        self.children = defaultdict()
 
 
 class Derakht:
@@ -19,14 +20,10 @@ class Derakht:
         When created, there will be a self.node that has an empty
         dictionary and a label of "*".
         """
-        self.root = Node("*")
+        self.root = Node('*')
 
-    def add_word(self, word):
-        
-        self.recurso(self.root, word)
-        
-    def recurso(self, node, word):
-        
 
 if __name__ == "__main__":
     obj = Derakht()
+    obj.root.children['*'] = Node('d')
+    obj.root.children['d']
