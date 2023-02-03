@@ -1,12 +1,15 @@
 """derakht.py
 
+Tree representations of words in a given language.
 """
 from collections import defaultdict
 
 
 class Node:
+    """Node
+    """
     def __init__(self, value):
-        """
+        """__init__ - initializer for a Node class
         """
         self.value = value
         self.parent = None
@@ -22,13 +25,16 @@ class Derakht:
         self.base_children = defaultdict()
 
     def add(self, word):
+        """ add - a thing
+        TODO: remove print - use logging
+        """
         print(word)
         if len(word) == 0:
             return
         first = word[0]
         if first in self.base_children:
             print(f"{first=} is here")
-            self.descend(None, word[1:])
+            self.descend(self.base_children[first], word[1:])
         else:
             print(f"{first=} is not here - adding.")
             self.base_children[first] = Node(first)
@@ -36,11 +42,17 @@ class Derakht:
             self.descend(self.base_children[first], word[1:])
 
     def descend(self, node, sub_word):
+        """ descend - a thing
+
+        TODO: remove print - use logging
+        """
         print(f'In descend: {node=} {sub_word=}')
         if len(sub_word) == 0:
             print('\tNull -> returning...')
+            node.children['NULL'] = Node('NULL')
             return
         first = sub_word[0]
+        print(type(node.children))
         print(f'\t{first=} is there... {sub_word[1:]=}')
         print(node)
         if first in node.children:
@@ -49,12 +61,37 @@ class Derakht:
         else:
             print(f'\t{first=} is NOT here - creating a new node.')
             thingy = Node(first)
+            thingy.parent=node
             print(f'Node is created: {thingy=}')
             node.children[first] = thingy
             self.descend(thingy, sub_word[1:])
 
+    def walk(self):
+        for letter in self.base_children:
+            print(f'{letter} ',end='')
+            self.step(self.base_children[letter])
+
+    def step(self, node):
+        if not node.children:
+            print()
+            return
+        else:
+            for letter in node.children:
+                print(f'-> {letter} ', end='')
+                self.step(node.children[letter])
+                print(f'\t{node.parent.value=}')
+        return
+
 
 if __name__ == "__main__":
     x = Derakht()
-    x.add('h')
-    x.add('hi')
+    x.add('dog')
+    x.add('do')
+    x.add('does')
+    x.add('doe')
+    x.add('dogs')
+    x.add('doctor')
+    x.add('dig')
+    x.add('dice')
+    x.add('dire')
+    x.walk()
