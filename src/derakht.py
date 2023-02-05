@@ -61,25 +61,40 @@ class Derakht:
         else:
             print(f'\t{first=} is NOT here - creating a new node.')
             thingy = Node(first)
-            thingy.parent=node
+            thingy.parent = node
             print(f'Node is created: {thingy=}')
             node.children[first] = thingy
             self.descend(thingy, sub_word[1:])
 
     def walk(self):
         for letter in self.base_children:
-            print(f'{letter} ',end='')
+            print(f'{letter} ', end='')
             self.step(self.base_children[letter])
 
+    # def step(self, node):
+    #     if not node.children:
+    #         print()
+    #         return
+    #     else:
+    #         print(f'{node.parent}')
+    #         for letter in node.children:
+    #             print(f'-> {letter} ', end='')
+    #             self.step(node.children[letter])
+    #     return
+
     def step(self, node):
+        print(f'Coming into: {node.value=}')
         if not node.children:
             print()
             return
         else:
+            print(f'{node.parent=}')
             for letter in node.children:
+                if letter == "NULL":
+                    continue
                 print(f'-> {letter} ', end='')
                 self.step(node.children[letter])
-                print(f'\t{node.parent.value=}')
+                print(f'Backing out of: {node.value=}')
         return
 
 
@@ -87,11 +102,7 @@ if __name__ == "__main__":
     x = Derakht()
     x.add('dog')
     x.add('do')
-    x.add('does')
-    x.add('doe')
-    x.add('dogs')
-    x.add('doctor')
-    x.add('dig')
-    x.add('dice')
-    x.add('dire')
+    breakpoint()
+    x.add('bat')
+    # x.add('bad')
     x.walk()
