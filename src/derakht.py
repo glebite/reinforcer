@@ -23,6 +23,7 @@ class Derakht:
         """__init__ - intializer
         """
         self.base_children = defaultdict()
+        self.stack = []
 
     def add(self, word):
         """ add - a thing
@@ -83,26 +84,37 @@ class Derakht:
     #     return
 
     def step(self, node):
+        print(node, type(node))
+        word = ""
         print(f'Coming into: {node.value=}')
         if not node.children:
             print()
             return
         else:
-            print(f'{node.parent=}')
+            print(f'\t{node.parent=}')
             for letter in node.children:
                 if letter == "NULL":
+                    print('-> NULL')
                     continue
                 print(f'-> {letter} ', end='')
-                self.step(node.children[letter])
-                print(f'Backing out of: {node.value=}')
-        return
+                word = word + self.step(node.children[letter])
+            print(word)
+        return word
+
+    def fucking_the_bear(self, node):
+        print(node, type(node))
+        if not node.children:
+            return
+        print(node.children)
+        for thing in node.children:
+            self.stack.append(thing)
+            self.fucking_the_bear(thing)
+        print(f'{self.stack=}')
 
 
 if __name__ == "__main__":
     x = Derakht()
     x.add('dog')
     x.add('do')
-    breakpoint()
     x.add('bat')
-    # x.add('bad')
     x.walk()
