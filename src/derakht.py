@@ -69,47 +69,28 @@ class Derakht:
 
     def walk(self):
         for letter in self.base_children:
-            print(f'{letter} ', end='')
+            print(f'{letter=} {type(letter)=}', end='')
+            self.stack.append(letter)
             self.step(self.base_children[letter])
-
-    # def step(self, node):
-    #     if not node.children:
-    #         print()
-    #         return
-    #     else:
-    #         print(f'{node.parent}')
-    #         for letter in node.children:
-    #             print(f'-> {letter} ', end='')
-    #             self.step(node.children[letter])
-    #     return
+            self.stack.pop()
 
     def step(self, node):
-        print(node, type(node))
-        word = ""
         print(f'Coming into: {node.value=}')
         if not node.children:
             print()
+            self.stack.pop()
             return
         else:
             print(f'\t{node.parent=}')
             for letter in node.children:
+                self.stack.append(letter)
                 if letter == "NULL":
                     print('-> NULL')
                     continue
                 print(f'-> {letter} ', end='')
-                word = word + self.step(node.children[letter])
-            print(word)
-        return word
-
-    def fucking_the_bear(self, node):
-        print(node, type(node))
-        if not node.children:
-            return
-        print(node.children)
-        for thing in node.children:
-            self.stack.append(thing)
-            self.fucking_the_bear(thing)
-        print(f'{self.stack=}')
+                self.step(node.children[letter])
+                print(f'STACK: {self.stack=}')
+        return
 
 
 if __name__ == "__main__":
