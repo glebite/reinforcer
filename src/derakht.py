@@ -29,41 +29,31 @@ class Derakht:
         """ add - a thing
         TODO: remove print - use logging
         """
-        print(word)
+        print(f'Adding: {word=}')
         if len(word) == 0:
             return
         first = word[0]
         if first in self.base_children:
-            print(f"{first=} is here")
+            print(f"{first=} is already here in self.base_children")
             self.descend(self.base_children[first], word[1:])
         else:
             print(f"{first=} is not here - adding.")
             self.base_children[first] = Node(first)
-            print("Descending...")
             self.descend(self.base_children[first], word[1:])
 
     def descend(self, node, sub_word):
-        """ descend - a thing
-
-        TODO: remove print - use logging
-        """
-        print(f'In descend: {node=} {sub_word=}')
         if len(sub_word) == 0:
-            print('\tNull -> returning...')
+            print("At the end of the word.")
             node.children['NULL'] = Node('NULL')
             return
         first = sub_word[0]
-        print(type(node.children))
-        print(f'\t{first=} is there... {sub_word[1:]=}')
-        print(node)
         if first in node.children:
-            print(f'\t{first=} is here in {node.children=}')
+            print(f"{first=} is already here in children")
             self.descend(node.children[first], sub_word[1:])
         else:
-            print(f'\t{first=} is NOT here - creating a new node.')
+            print(f"{first=} is not here - adding.")
             thingy = Node(first)
             thingy.parent = node
-            print(f'Node is created: {thingy=}')
             node.children[first] = thingy
             self.descend(thingy, sub_word[1:])
 
@@ -72,13 +62,14 @@ class Derakht:
             print(f'{letter=} {type(letter)=}', end='')
             self.stack.append(letter)
             self.step(self.base_children[letter])
+            print(f'{self.stack=}')
             self.stack.pop()
 
     def step(self, node):
         print(f'Coming into: {node.value=}')
         if not node.children:
             print()
-            self.stack.pop()
+            # self.stack.pop()
             return
         else:
             print(f'\t{node.parent=}')
