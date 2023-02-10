@@ -69,7 +69,7 @@ class Derakht:
         print(f'Coming into: {node.value=}')
         if not node.children:
             print()
-            # self.stack.pop()
+            self.stack.pop()
             return
         else:
             print(f'\t{node.parent=}')
@@ -87,6 +87,7 @@ class Derakht:
 if __name__ == "__main__":
     x = Derakht()
     x.add('dog')
+    breakpoint()
     x.add('do')
-    x.add('bat')
+    # x.add('bat')
     x.walk()
