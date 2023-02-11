@@ -43,7 +43,8 @@ class Derakht:
 
     def descend(self, node, sub_word):
         if len(sub_word) == 0:
-            print("At the end of the word.")
+            print(f"At the end of the word - adding a 'NULL'"
+                  f" node. {node.parent}")
             node.children['NULL'] = Node('NULL')
             return
         first = sub_word[0]
@@ -58,11 +59,12 @@ class Derakht:
             self.descend(thingy, sub_word[1:])
 
     def walk(self):
+        print(f'{self.base_children=}')
         for letter in self.base_children:
-            print(f'{letter=} {type(letter)=}', end='')
+            print(f'\t{letter=} {type(letter)=}', end='')
             self.stack.append(letter)
             self.step(self.base_children[letter])
-            print(f'{self.stack=}')
+            print(f'\t{self.stack=}')
             self.stack.pop()
 
     def step(self, node):
@@ -87,7 +89,7 @@ class Derakht:
 if __name__ == "__main__":
     x = Derakht()
     x.add('dog')
-    breakpoint()
     x.add('do')
+    breakpoint()
     # x.add('bat')
     x.walk()
