@@ -2,18 +2,20 @@
 
 Tree representations of words in a given language.
 """
-from collections import defaultdict
 
 
 class Node:
     """Node
     """
-    def __init__(self, value):
+    def __init__(self, value, index):
         """__init__ - initializer for a Node class
         """
         self.value = value
-        self.parent = None
-        self.children = defaultdict()
+        self.index = index
+        self.children = {}
+
+    def add_child(self, char, node):
+        self.children[char] = node
 
 
 class Derakht:
@@ -22,74 +24,36 @@ class Derakht:
     def __init__(self):
         """__init__ - intializer
         """
-        self.base_children = defaultdict()
-        self.stack = []
+        self.root = Node("", 0)
+        self.current_index = 1
 
-    def add(self, word):
-        """ add - a thing
-        TODO: remove print - use logging
-        """
-        print(f'Adding: {word=}')
-        if len(word) == 0:
-            return
-        first = word[0]
-        if first in self.base_children:
-            print(f"{first=} is already here in self.base_children")
-            self.descend(self.base_children[first], word[1:])
-        else:
-            print(f"{first=} is not here - adding.")
-            self.base_children[first] = Node(first)
-            self.descend(self.base_children[first], word[1:])
+    def insert(self, word):
+        current = self.root
+        for char in word:
+            if char not in current.children:
+                current.children[char] = Node(char, self.current_index)
+                self.current_index += 1
+            current = current.children[char]
+        current.children["*"] = Node("*", self.current_index)
+        self.current_index += 1
 
-    def descend(self, node, sub_word):
-        if len(sub_word) == 0:
-            print(f"At the end of the word - adding a 'NULL'"
-                  f" node. {node.parent}")
-            node.children['NULL'] = Node('NULL')
-            return
-        first = sub_word[0]
-        if first in node.children:
-            print(f"{first=} is already here in children")
-            self.descend(node.children[first], sub_word[1:])
-        else:
-            print(f"{first=} is not here - adding.")
-            thingy = Node(first)
-            thingy.parent = node
-            node.children[first] = thingy
-            self.descend(thingy, sub_word[1:])
-
-    def walk(self):
-        print(f'{self.base_children=}')
-        for letter in self.base_children:
-            print(f'\t{letter=} {type(letter)=}', end='')
-            self.stack.append(letter)
-            self.step(self.base_children[letter])
-            print(f'\t{self.stack=}')
-            self.stack.pop()
-
-    def step(self, node):
-        print(f'Coming into: {node.value=}')
-        if not node.children:
-            print()
-            self.stack.pop()
-            return
-        else:
-            print(f'\t{node.parent=}')
-            for letter in node.children:
-                self.stack.append(letter)
-                if letter == "NULL":
-                    print('-> NULL')
-                    continue
-                print(f'-> {letter} ', end='')
-                self.step(node.children[letter])
-                print(f'STACK: {self.stack=}')
-        return
+    def follow(self):
+        dot_notation = "digraph {\n"
+        stack = [self.root]
+        while stack:
+            node = stack.pop()
+            for child in node.children.values():
+                dot_notation += f"\t{node.index} -> {child.index} [label={child.value}];\n"
+                stack.append(child)
+        dot_notation += "}"
+        return dot_notation
 
 
 if __name__ == "__main__":
     x = Derakht()
-    x.add('dog')
-    x.add('do')
-    breakpoint()
-    # x.add('bat')
-    x.walk()
+    with open('../data/5000-Persian.txt', 'r') as fp:
+        for line in fp:
+            word = line.strip()
+            print(word)
+            x.insert(word)
+    x.follow()
