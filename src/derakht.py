@@ -26,6 +26,7 @@ class Derakht:
         """
         self.root = Node("", 0)
         self.current_index = 1
+        self.null_counter = 0
 
     def insert(self, word):
         current = self.root
@@ -34,8 +35,9 @@ class Derakht:
                 current.children[char] = Node(char, self.current_index)
                 self.current_index += 1
             current = current.children[char]
-        current.children["*"] = Node("*", self.current_index)
+        current.children[f"NULL{self.null_counter}"] = Node(f"NULL{self.null_counter}", self.current_index)
         self.current_index += 1
+        self.null_counter += 1
 
     def follow(self):
         dot_notation = "digraph {\n"
@@ -54,6 +56,5 @@ if __name__ == "__main__":
     with open('../data/5000-Persian.txt', 'r') as fp:
         for line in fp:
             word = line.strip()
-            print(word)
             x.insert(word)
-    x.follow()
+    print(x.follow())
