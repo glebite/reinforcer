@@ -47,7 +47,8 @@ class Miangin:
             for i in range(len(word)):
                 for j in range(i+1, len(word)+1):
                     subword = word[i:j]
-                    if subword != word and subword in words and subword not in subwords:
+                    if subword != word and subword in words\
+                       and subword not in subwords:
                         subwords[subword] = set()
                         for w in words:
                             if subword in w:
