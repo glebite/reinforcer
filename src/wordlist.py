@@ -1,5 +1,6 @@
 """wordlist.py
 
+Some code to play with words, etc...
 """
 import os
 import sys
@@ -32,7 +33,7 @@ logger.addHandler(sh)
 
 
 class WordList:
-    """WordList - class to do work on with a wordlist 
+    """WordList - class to do work on with a word list
     """
     def __init__(self, filename=None):
         """__init__ - initializer
@@ -41,12 +42,12 @@ class WordList:
         filename (str): name of the file to acquire wordlist from
         """
         self.filename = filename
-        logger.info(f'Initializing {self=} {self.filename=}')        
+        logger.info(f'Initializing {self=} {self.filename=}')
         self.word_list = []
         self.first_letter = defaultdict(list)
 
     def load_file(self):
-        """
+        """load_file - load the contents of the data file
         """
         logger.info(f'Loading file {self.filename=}')
         if os.path.exists(self.filename):
