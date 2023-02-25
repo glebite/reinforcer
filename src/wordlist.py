@@ -75,6 +75,11 @@ class WordList:
             logger.error('self.wordlist is empty')
             raise ValueError('self.wordlist is empty')
 
+    def build_first_second_list(self):
+        """
+        """
+        pass
+
 
 if __name__ == "__main__":
     x = WordList(sys.argv[1])
