@@ -45,6 +45,7 @@ class WordList:
         logger.info(f'Initializing {self=} {self.filename=}')
         self.word_list = []
         self.first_letter = defaultdict(list)
+        self.last_letter = defaultdict(list)        
 
     def load_file(self):
         """load_file - load the contents of the data file
@@ -75,10 +76,20 @@ class WordList:
             logger.error('self.wordlist is empty')
             raise ValueError('self.wordlist is empty')
 
-    def build_first_second_list(self):
+    def build_last_letter_list(self):
         """
         """
-        pass
+        logger.info(f'Building last letter list'
+                    f' {len(self.word_list)=}')
+        if self.word_list:
+            for word in self.word_list:
+                last = word[-1]
+                remainder = word[:-1]
+                self.last_letter[last].append(remainder)
+        else:
+            logger.error('self.wordlist is empty')
+            raise ValueError('self.wordlist is empty')
+
 
 
 if __name__ == "__main__":
