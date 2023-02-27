@@ -45,7 +45,8 @@ class WordList:
         logger.info(f'Initializing {self=} {self.filename=}')
         self.word_list = []
         self.first_letter = defaultdict(list)
-        self.last_letter = defaultdict(list)        
+        self.last_letter = defaultdict(list)
+        self.matches = list()
 
     def load_file(self):
         """load_file - load the contents of the data file
@@ -90,6 +91,18 @@ class WordList:
             logger.error('self.wordlist is empty')
             raise ValueError('self.wordlist is empty')
 
+    def find_word_in_letter(self, letter):
+        """
+        """
+        logger.info(f'Building last letter list'
+                    f' {len(self.word_list)=}')
+        if self.word_list:
+            for word in self.word_list:
+                if letter in word:
+                    self.matches.append(word)
+        else:
+            logger.error('self.wordlist is empty')
+            raise ValueError('self.wordlist is empty')
 
 
 if __name__ == "__main__":
@@ -99,3 +112,4 @@ if __name__ == "__main__":
     for letter in x.first_letter.keys():
         logger.debug(f'{letter} -> {len(x.first_letter[letter])}')
     logger.debug(f"{x.first_letter['گ']=}")
+    print(x.find_word_in_letter('ق'))
