@@ -108,8 +108,6 @@ class WordList:
 if __name__ == "__main__":
     x = WordList(sys.argv[1])
     x.load_file()
-    x.build_first_letter_list()
-    for letter in x.first_letter.keys():
-        logger.debug(f'{letter} -> {len(x.first_letter[letter])}')
-    logger.debug(f"{x.first_letter['گ']=}")
     print(x.find_word_in_letter('ق'))
+    for word in x.matches:
+        print(word)
