@@ -56,5 +56,6 @@ if __name__ == "__main__":
     with open('../data/5000-Persian.txt', 'r') as fp:
         for line in fp:
             word = line.strip()
-            x.insert(word)
+            if word.startswith('ب'):
+                x.insert(word)
     print(x.follow())

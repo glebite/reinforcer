@@ -110,4 +110,6 @@ if __name__ == "__main__":
     x.load_file()
     print(x.find_word_in_letter('ق'))
     for word in x.matches:
+        if word is None:
+            continue
         print(word)
