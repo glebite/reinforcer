@@ -50,12 +50,15 @@ class Derakht:
         dot_notation += "}"
         return dot_notation
 
+    def dump_first_letter(self, file_name, letter):
+        with open(file_name, 'r') as fp:
+            for line in fp:
+                word = line.strip()
+                if word.startswith(letter):
+                    x.insert(word)
+        print(x.follow())
+
 
 if __name__ == "__main__":
     x = Derakht()
-    with open('../data/5000-Persian.txt', 'r') as fp:
-        for line in fp:
-            word = line.strip()
-            if word.startswith('ب'):
-                x.insert(word)
-    print(x.follow())
+    x.dump_first_letter('../data/5000-Persian.txt', 'ط')
